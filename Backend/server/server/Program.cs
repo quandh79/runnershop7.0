@@ -1,5 +1,6 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -66,6 +67,12 @@ var emailConfig = builder.Configuration.GetSection("EmailConfiguration")
     .Get<EmailConfiguration>();
 builder.Services.AddSingleton(emailConfig);
 builder.Services.AddScoped<IEmailSender, EmailSender>();
+
+//builder.Services.AddOptions();
+//var mailsettings = builder.Configuration.GetSection("MailSettings");
+//builder.Services.Configure<MailSetting>(mailsettings);
+//builder.Services.AddTransient<SendMailService>();
+
 //
 builder.Services.AddTransient<IManageProductService, ManageProductService>();
 builder.Services.AddTransient<IProductService, ProductService>();
@@ -162,9 +169,10 @@ Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images")),
 app.UseAuthorization();
 app.UseEndpoints(endpoints =>
 {
-
     endpoints.MapControllers();
     endpoints.MapHub<ChatHub>("/chatHub");
+  
+
 });
 
 

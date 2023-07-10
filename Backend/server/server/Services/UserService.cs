@@ -170,10 +170,10 @@ namespace server.Services
                 var token = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var passwordResetLink = string.Format("https://localhost:3000/ResetPassword?token={0}&email={1}", token, request.email);
                 var emailMessage = new MimeMessage();
-                emailMessage.From.Add(new MailboxAddress(_emailConfiguration.From));
+                emailMessage.From.Add(new MailboxAddress(string.Empty, _emailConfiguration.From));
                 //var to = new List<MailboxAddress>();
                 
-                emailMessage.To.Add(new MailboxAddress(request.email));
+                emailMessage.To.Add(new MailboxAddress(string.Empty, request.email));
                 emailMessage.Subject = "RESET PASSWORD";
 
 

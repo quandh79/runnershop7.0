@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Configuration;
 using server.Helper.order;
 using server.Hubs;
 using server.Interfaces;
 using server.ViewModel;
+using PayPal.Core;
 
 namespace server.Controllers
 {
@@ -21,12 +23,16 @@ namespace server.Controllers
     {
         public readonly IOrderService _orderService;
         private readonly IHubContext<ChatHub> _hubContext;
-        
+        private readonly string _clientId;
+        private readonly string _secretKey;
+        public double usdRate = 23000;
         private Guid adminId = new Guid("4557893f-1f56-4b6f-bb3b-caefd62c8c49");
-        public OrderController(IOrderService orderService, [NotNull]IHubContext<ChatHub> hubContext)
+        public OrderController(IOrderService orderService, [NotNull]IHubContext<ChatHub> hubContext, IConfiguration config)
         {
             _orderService = orderService;
             _hubContext = hubContext;
+            _clientId = config["PaypalSetting:ClientId"];
+            _secretKey = config["PaypalSetting:SetcretKey"];
     }
         [HttpPost]
         //[Authorize(Roles = ("User"))]
@@ -56,6 +62,12 @@ namespace server.Controllers
         {
             var list = await _orderService.GetOrderListByUserId(userId);
             return Ok(list);
+        }
+        [HttpGet("config")]
+        public IActionResult PaypalCheckout()
+        {
+            return Ok(_clientId);
+
         }
     }
 }

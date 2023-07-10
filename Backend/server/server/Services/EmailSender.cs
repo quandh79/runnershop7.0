@@ -16,7 +16,7 @@ namespace server.Services
     public class EmailSender : IEmailSender
     {
         private readonly EmailConfiguration _emailConfiguration;
-        private const string title = "ONLINE SHOP - Hóa Đơn Khách Hàng";
+        private const string title = "Runner SHOP - Hóa Đơn Khách Hàng";
         public EmailSender(EmailConfiguration emailConfiguration)
         {
             _emailConfiguration = emailConfiguration;
@@ -44,7 +44,7 @@ namespace server.Services
         private MimeMessage CreateEmailMessage(Message message, List<OrderDetailViewModel> data, int total)
         {
             var emailMessage = new MimeMessage();
-            emailMessage.From.Add(new MailboxAddress(_emailConfiguration.From));
+            emailMessage.From.Add(new MailboxAddress(_emailConfiguration.Username, _emailConfiguration.From));
             emailMessage.To.AddRange(message.To);
             emailMessage.Subject = message.Subject;
             if(data != null)
@@ -73,11 +73,17 @@ namespace server.Services
             {
                 try
                 {
-                    client.Connect(_emailConfiguration.SmtpServer, _emailConfiguration.Port, true);
+                    client.Connect(_emailConfiguration.SmtpServer, _emailConfiguration.Port, MailKit.Security.SecureSocketOptions.StartTls);
                     await client.AuthenticateAsync(_emailConfiguration.Username, _emailConfiguration.Password);
-                    client.AuthenticationMechanisms.Remove("XOAUTH2");
+                  //  client.AuthenticationMechanisms.Remove("XOAUTH2");
                     await client.SendAsync(mailMessage);
                     return true;
+
+                    //using var smtp = new SmtpClient();
+                    //smtp.Connect("smtp.gmail.com", 587, MailKit.Security.SecureSocketOptions.StartTls);
+                    //smtp.Authenticate("quandhte@gmail.com", "xyctugdhiansiaar");
+                    //smtp.Send(email);
+                    //smtp.Disconnect(true);
                 }
                 catch(Exception ex)
                 {

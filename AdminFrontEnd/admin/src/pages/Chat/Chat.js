@@ -4,6 +4,12 @@ import Minimized from './Minimized'
 import { ThemeProvider, FixedWrapper, darkTheme, elegantTheme, purpleTheme, defaultTheme } from '@livechat/ui-kit';
 
 export default class Chat extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            openMaximize: false,
+        }
+    }
     render() {
         return (
             <div>

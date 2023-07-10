@@ -2,10 +2,13 @@ import React, { Component, Fragment } from 'react';
 import {Modal, Row, Col, Form, Input, Select, Button, Spin, Timeline} from 'antd';
 import {ShoppingOutlined, CarOutlined, DollarCircleOutlined} from '@ant-design/icons';
 import {StripeProvider, Elements} from 'react-stripe-elements';
-import FormStripe from '../formStripe/FormStripe';
+// import FormStripe from '../formStripe/FormStripe';
 import * as ParsePrice from '../../../helper/parsePriceForSale';
 import axiosInstance from '../../../utils/axiosInstance';
 import {connect} from 'react-redux';
+//  import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+ import { PayPalButton } from "react-paypal-button-v2";
+
 
 
 const {Option} = Select;
@@ -164,11 +167,30 @@ class ModalCheckout extends Component {
                             </Form.Item>
                             {this.state.onlinePayment === true?
                             (
-                                <StripeProvider apiKey="pk_test_51GsBkmDTOM2rV4A05njQTy9r2RSBuhuds67TGQsYmnDZcoP8qLkKTPbFEqlR8zQYOCKFvsrosssEdQoN1uTv3ILq00DL52AhHp">
-                                    <Elements>
-                                        <FormStripe total={this.props.total}></FormStripe>
-                                    </Elements>
-                                </StripeProvider>
+                                <><label>Tổng tiền (VND)</label><Input type="text" value={this.props.total + this.state.feeShip} disabled></Input><PayPalButton
+                                                options={{
+                                                    "vault": true,
+                                                    "client-id": "AR86XShHEggIM0YzMF6FdymWDWPkpjh7mx-PDVlwis1Ve0HRniLtcaaIjPLMDDw-MZPi89PNeLAmuKrd"
+                                                }}
+
+                                                amount={Math.round((this.props.total  + this.state.feeShip)/ 23000)}
+                                                // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
+                                                onSuccess={(details, data) => {
+                                                    alert("Transaction completed by " + details.payer.name.given_name);
+
+                                                    // OPTIONAL: Call your server to save the transaction
+                                                    return fetch("/paypal-transaction-complete", {
+                                                        method: "post",
+                                                        body: JSON.stringify({
+                                                            orderID: data.orderID
+                                                        })
+                                                    });
+                                                } } /></>
+                                // <StripeProvider apiKey="pk_test_51GsBkmDTOM2rV4A05njQTy9r2RSBuhuds67TGQsYmnDZcoP8qLkKTPbFEqlR8zQYOCKFvsrosssEdQoN1uTv3ILq00DL52AhHp">
+                                //     <Elements>
+                                //         <FormStripe total={this.props.total}></FormStripe>
+                                //     </Elements>
+                                // </StripeProvider>
                             ):(<Fragment>
                                 <Row>
                                     <Col span={20} offset={2}>
@@ -248,3 +270,25 @@ const mapStateToProps = (state) => {
     }
 }
 export default connect(mapStateToProps, null)(ModalCheckout);
+
+// <PayPalScriptProvider
+                                //     options={{ "client-id":"AR86XShHEggIM0YzMF6FdymWDWPkpjh7mx-PDVlwis1Ve0HRniLtcaaIjPLMDDw-MZPi89PNeLAmuKrd"}}
+                                // >
+                                //     <PayPalButtons
+                                //     createOrder={(data, actions) => {
+                                //         return actions.order.create({
+                                //         purchase_units: [
+                                //             {
+                                //             amount: {
+                                //                 value: Math.round(this.props.total / 30000),
+                                //             },
+                                //             },
+                                //         ],
+                                //         });
+                                //     }}
+                                //     onApprove={async (data, actions) => {
+                                        
+                                //         alert("Transaction completed ");
+                                //     }}
+                                //     />
+                                // </PayPalScriptProvider>

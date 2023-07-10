@@ -11,7 +11,7 @@ namespace server.Models
         public Message(IEnumerable<string> to, string subject, string content)
         {
             To = new List<MailboxAddress>();
-            To.AddRange(to.Select(x => new MailboxAddress(x)));
+            To.AddRange(to.Select(x => new MailboxAddress(string.Empty, x)));
             Subject = subject;
             Content = content;
         }

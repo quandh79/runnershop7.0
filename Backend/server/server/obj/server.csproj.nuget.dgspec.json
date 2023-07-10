@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "G:\\.NET\\pj\\Shopping - Copy\\Backend\\server\\server\\server.csproj": {}
+    "G:\\.NET\\pj\\Shopping7\\Backend\\server\\server\\server.csproj": {}
   },
   "projects": {
-    "G:\\.NET\\pj\\Shopping - Copy\\Backend\\server\\server\\server.csproj": {
+    "G:\\.NET\\pj\\Shopping7\\Backend\\server\\server\\server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "G:\\.NET\\pj\\Shopping - Copy\\Backend\\server\\server\\server.csproj",
+        "projectUniqueName": "G:\\.NET\\pj\\Shopping7\\Backend\\server\\server\\server.csproj",
         "projectName": "server",
-        "projectPath": "G:\\.NET\\pj\\Shopping - Copy\\Backend\\server\\server\\server.csproj",
+        "projectPath": "G:\\.NET\\pj\\Shopping7\\Backend\\server\\server\\server.csproj",
         "packagesPath": "C:\\Users\\Quan68\\.nuget\\packages\\",
-        "outputPath": "G:\\.NET\\pj\\Shopping - Copy\\Backend\\server\\server\\obj\\",
+        "outputPath": "G:\\.NET\\pj\\Shopping7\\Backend\\server\\server\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Quan68\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -43,6 +43,10 @@
             "EPPlus": {
               "target": "Package",
               "version": "[5.2.1, )"
+            },
+            "MailKit": {
+              "target": "Package",
+              "version": "[4.1.0, )"
             },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
@@ -89,6 +93,10 @@
             "NETCore.MailKit": {
               "target": "Package",
               "version": "[2.0.3, )"
+            },
+            "PayPal": {
+              "target": "Package",
+              "version": "[2.0.0-rc2, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",

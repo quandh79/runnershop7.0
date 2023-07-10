@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using server.Data;
@@ -60,21 +61,22 @@ namespace server.Controllers
         {
             
             var result = await _manageOrderService.confirmShippingAndSendMailBillOrder(request);
-            if (result.success == false)
+            if (result.success != false)
             {
                 var listData = await _manageOrderService.GetOrderDetailByOrderId(request.orderId);
-                var message = new Message(new String[] { result.email }, "ONLINE SHOP - Hóa Đơn Khách Hàng - " + result.customer, string.Empty);
+                var message = new Message(new String[] { result.email }, "Runner SHOP - Hóa Đơn Khách Hàng - " + result.customer, string.Empty);
                 var flag = await _emailSender.SendMailOrderBill(message, listData, result.total);
                 if (flag == false)
                 {
                     await _manageOrderService.SetStatusNotConfirm(request.orderId, 0);
                 }
                 return Ok(flag);
-                return BadRequest("hong roi !!!");
+               // return BadRequest("hong roi !!!");
             }
             return Ok(result.success);
         }
         [HttpPost("CancelOrder")]
+        
         public async Task<IActionResult> CancelOrder(CancelOrderRequest request)
         {
             var result = await _manageOrderService.CancelOrder(request);
@@ -84,7 +86,7 @@ namespace server.Controllers
                 var customer = String.IsNullOrEmpty(order.guess) ? order.user.displayname : order.guess;
                 var note = String.IsNullOrEmpty(request.note) ? $"Đơn hàng có mã {request.orderId} của bạn đã bị hủy bởi Admin!" :
                     $"Đơn hàng có mã {request.orderId} của bạn đã bị hủy bởi Admin. Do " + request.note;
-                var message = new Message(new string[] { order.email }, "ONLINE SHOP - Thông Báo Khách Hàng - "
+                var message = new Message(new string[] { order.email }, "Runner SHOP - Thông Báo Khách Hàng - "
                     +customer, note);
                 var flag = await _emailSender.SendMailOrderBill(message, null, 0);
                 if (flag == false)
