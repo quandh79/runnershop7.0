@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Row, Col, Form, Input, Button, message} from 'antd';
 import queryString from 'query-string';
-import {Redirect} from 'react-router-dom';
+import { Redirect } from 'react-router-dom/cjs/react-router-dom';
 import axiosInstance from '../../../utils/axiosInstance';
 
 

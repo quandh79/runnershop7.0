@@ -21,6 +21,7 @@ import { ThemeProvider } from '@livechat/ui-kit'
 
 
 import 'moment-timezone';
+import ModalCheckout from './components/listCart/modalCheckout/ModalCheckout';
 
 const style = {
   height: 40,
@@ -57,6 +58,7 @@ function App() {
         <Route exact path="/" component={Home} />
         <Route exact path="/product-detail/:productId" component={ProductDetail} />
         <Route exact path="/Cart" component={Cart} />
+        {/* <Route exact path="/Checkout" component={ModalCheckout} /> */}
         <Route exact path="/Persional/:userId" component={Persional} />
         <Route exact path="/search/" component={Search} />
       </Switch>

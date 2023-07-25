@@ -13,6 +13,11 @@ using server.Hubs;
 using server.Interfaces;
 using server.ViewModel;
 using PayPal.Core;
+using Microsoft.AspNetCore.Http.HttpResults;
+using server.Services;
+using Microsoft.Build.Tasks;
+using server.Models;
+using Message = server.Models.Message;
 
 namespace server.Controllers
 {
@@ -27,12 +32,17 @@ namespace server.Controllers
         private readonly string _secretKey;
         public double usdRate = 23000;
         private Guid adminId = new Guid("4557893f-1f56-4b6f-bb3b-caefd62c8c49");
-        public OrderController(IOrderService orderService, [NotNull]IHubContext<ChatHub> hubContext, IConfiguration config)
+         private readonly IEmailSender _emailSender;
+        private readonly IManageOrderService _manageOrderService;
+        
+        public OrderController(IOrderService orderService, [NotNull]IHubContext<ChatHub> hubContext, IConfiguration config, IManageOrderService manageOrderService, IEmailSender emailSender)
         {
             _orderService = orderService;
             _hubContext = hubContext;
             _clientId = config["PaypalSetting:ClientId"];
             _secretKey = config["PaypalSetting:SetcretKey"];
+             _manageOrderService = manageOrderService;
+            _emailSender = emailSender;
     }
         [HttpPost]
         //[Authorize(Roles = ("User"))]
@@ -55,7 +65,13 @@ namespace server.Controllers
                 status = enums.NotifyStatus.order,
             };
             await _hubContext.Clients.All.SendAsync("ReceiveNotify", notify);
-            return Ok("Đặt hàng thành công! Admin sẽ thông báo đến bạn thông qua số điện thoại hoặc gmail! Trân trọng!");
+           
+                var listData = await _manageOrderService.GetOrderDetailByOrderId(orderId);
+                var message = new Message(new String[] { request.email }, "Runner SHOP - Hóa Đơn Khách Hàng - " + request.email, string.Empty);
+                var flag = await _emailSender.SendMailOrderBill(message, listData, request.total);
+
+            
+                return Ok("Đặt hàng thành công! Admin sẽ thông báo đến bạn thông qua số điện thoại hoặc gmail! Trân trọng!");
         }
         [HttpGet("GetOrderListByUserId/{userId}")]
         public async Task<IActionResult> GetOrderListByUserId(Guid userId)
@@ -69,5 +85,7 @@ namespace server.Controllers
             return Ok(_clientId);
 
         }
+
+       
     }
 }

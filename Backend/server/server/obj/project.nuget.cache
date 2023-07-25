@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "zEm9Y1sluaOkvIzM1H8vddlxRmcoBOSB/mFOaBceotMen5SvtiBIa/j2TOouE7FyW7cXZ7SLkLiwJlQ1w+zuzg==",
+  "dgSpecHash": "JFknCnUpADrc3j6bmDbiOBO2R+2DKzQg4aaKhCjcOK+4Q7W0WHSwVhh6XRfXvlBTbtIvsGA7w85e7RRFzoykrg==",
   "success": true,
   "projectFilePath": "G:\\.NET\\pj\\Shopping7\\Backend\\server\\server\\server.csproj",
   "expectedPackageFiles": [
@@ -57,6 +57,7 @@
     "C:\\Users\\Quan68\\.nuget\\packages\\microsoft.entityframeworkcore.design\\6.0.0\\microsoft.entityframeworkcore.design.6.0.0.nupkg.sha512",
     "C:\\Users\\Quan68\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\6.0.0\\microsoft.entityframeworkcore.relational.6.0.0.nupkg.sha512",
     "C:\\Users\\Quan68\\.nuget\\packages\\microsoft.entityframeworkcore.sqlserver\\6.0.0\\microsoft.entityframeworkcore.sqlserver.6.0.0.nupkg.sha512",
+    "C:\\Users\\Quan68\\.nuget\\packages\\microsoft.entityframeworkcore.tools\\6.0.0\\microsoft.entityframeworkcore.tools.6.0.0.nupkg.sha512",
     "C:\\Users\\Quan68\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
     "C:\\Users\\Quan68\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\6.0.0\\microsoft.extensions.caching.abstractions.6.0.0.nupkg.sha512",
     "C:\\Users\\Quan68\\.nuget\\packages\\microsoft.extensions.caching.memory\\6.0.0\\microsoft.extensions.caching.memory.6.0.0.nupkg.sha512",

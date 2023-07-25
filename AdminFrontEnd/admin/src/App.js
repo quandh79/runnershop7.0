@@ -59,7 +59,7 @@ class App extends Component {
        <Switch>
           {resultPagePrivate} {resultPage}
        </Switch>
-       <Chat></Chat>
+       {/* <Chat></Chat> */}
        </ThemeProvider>
        </>
     );

@@ -19,19 +19,19 @@ using System.Threading.Tasks;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(
-        policy =>
-        {
-            //policy.WithOrigins("https://24h.com.vn");
-            policy.AllowAnyOrigin();
-            policy.AllowAnyMethod();
-            policy.AllowAnyHeader();
-        }
-        );
-}
-);
+//builder.Services.AddCors(options =>
+//{
+//    options.AddDefaultPolicy(
+//        policy =>
+//        {
+//            //policy.WithOrigins("https://24h.com.vn");
+//            policy.AllowAnyOrigin();
+//            policy.AllowAnyMethod();
+//            policy.AllowAnyHeader();
+//        }
+//        );
+//}
+//);
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 builder.Services.AddEndpointsApiExplorer();
@@ -39,17 +39,17 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ShopDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DevConnection")));
 builder.Services.AddCors(
-    options => options.AddPolicy("CorsPolicy",
+    options => options.AddPolicy("corspolicy",
 builder =>
 {
-    //builder.AllowAnyMethod().AllowAnyHeader()
-    //       .WithOrigins("https://localhost:3000", "http://localhost:8000")
-    //       .AllowCredentials();
+    //builder.allowanymethod().allowanyheader()
+    //       .withorigins("https://localhost:3000", "http://localhost:8000")
+    //       .allowcredentials();
     builder.AllowAnyOrigin();
     builder.AllowAnyMethod();
     builder.AllowAnyHeader();
 }));
-//
+
 builder.Services.AddIdentity<AppUser, AppRole>(options => {
     options.Password.RequireDigit = false;
     options.Password.RequireLowercase = false;
@@ -150,6 +150,9 @@ app.UseCors(x => x
           .AllowAnyHeader()
           .SetIsOriginAllowed(origin => true)
           .AllowCredentials());
+//app.UseCors();
+
+
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseRouting();

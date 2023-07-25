@@ -14,6 +14,8 @@ import StatisticsProduct from '../pages/Manage/statistical/StatisticsProduct';
 import StatisticsGeneral from "../pages/Manage/statistical/StatisticsGeneral";
 import OrderCanceled from "../pages/Manage/orderManage/OrderCanceled";
 import MainScreen from "../pages/Manage/orderManage/MainScreen";
+import OrderTransport from "../pages/Manage/orderManage/OrderTransport";
+import OrderReturn from "../pages/Manage/orderManage/OrderReturn";
 
 //
 
@@ -58,6 +60,20 @@ const AdminRoute = [
           <OrderNotConfirm location={location} {...props} />
        ),
     },
+    {
+      path: "/admin/order-manage/order-transport",
+     exact: true,
+     myComponent: (location, props) => (
+        <OrderTransport location={location} {...props} />
+     ),
+  },
+  {
+   path: "/admin/order-manage/order-return",
+  exact: true,
+  myComponent: (location, props) => (
+     <OrderReturn location={location} {...props} />
+  ),
+},
     {
        path: "/admin/product-manage",
        exact: true,

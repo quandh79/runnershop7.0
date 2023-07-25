@@ -12,5 +12,8 @@ namespace server.enums
         Shipping,
         Success,
         Deleted,
+        Return,
+        Transport
+        
     }
 }

@@ -178,10 +178,10 @@ export default class StatisticsGeneral extends Component {
                         
                             <Button onClick={this.handleStatistic.bind(this)}>Thống kê</Button>
                         </Col>
-                        <Col span={2}>
+                        {/* <Col span={2}>
                             
                             <Button>Xuất Excel</Button>
-                        </Col>
+                        </Col> */}
                         <Col span={2} offset={1}>
                             <Button onClick={this.handleChangeStatus.bind(this)}>
                                 {this.state.status?"Search By Order":"Search By Product"}

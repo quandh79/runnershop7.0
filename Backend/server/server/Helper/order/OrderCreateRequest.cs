@@ -8,7 +8,7 @@ namespace server.Helper.order
 {
     public class OrderCreateRequest
     {
-        
+       
         public int total { get; set; }
         public string note { get; set; }
         public string address { get; set; }
@@ -18,6 +18,7 @@ namespace server.Helper.order
         public string guess { get; set; }
         public string phone { get; set; }
         public string email { get; set; }
+        public bool payment { get; set; }
         
         //foreign key
         public Guid? userId { get; set; }

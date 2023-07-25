@@ -56,6 +56,8 @@ export default class SideBar extends Component {
                                 <Menu.Item key="1"><Link to="/admin/order-manage/order-success">Đơn hàng thành công</Link></Menu.Item>
                                 <Menu.Item key="2"><Link to="/admin/order-manage/order-delivering">Đơn hàng đang chuyển</Link></Menu.Item>
                                 <Menu.Item key="3"><Link to="/admin/order-manage/order-not-confirm">Đơn hàng chưa duyệt</Link></Menu.Item>
+                                <Menu.Item key="4"><Link to="/admin/order-manage/order-transport">Đơn hàng vận chuyển</Link></Menu.Item>
+                                <Menu.Item key="5"><Link to="/admin/order-manage/order-return">Đơn hàng khiếu nại, trả hàng</Link></Menu.Item>
                                 <Menu.Item key="12"><Link to="/admin/order-manage/order-canceled">Đơn hàng Đã hủy</Link></Menu.Item>
                             </SubMenu>
                             <SubMenu

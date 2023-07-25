@@ -10,5 +10,6 @@ namespace server.Helper.order
     {
         public int orderId { get; set; }
         public OrderStatus status { get; set; }
+        public string note { get; set; }
     }
 }

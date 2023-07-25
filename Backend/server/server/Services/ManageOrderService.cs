@@ -189,11 +189,64 @@ namespace server.Services
             return list;
         }
 
+        public async Task<List<OrderViewModel>> GetAllOrderTransport()
+        {
+            var list = await _context.orders.Where(x => x.status == enums.OrderStatus.Transport).Include(e => e.OrderDetails)
+                .Select(y => new OrderViewModel
+                {
+                    id = y.id,
+                    address = y.address,
+                    createDate = y.createDate,
+                    deliveryDate = y.deliveryDate,
+                    email = y.email,
+                    guess = y.guess,
+                    note = y.note,
+                    feeShip = y.feeShip,
+                    OrderDetails = y.OrderDetails,
+                    phone = y.phone,
+                    status = y.status,
+                    street = y.street,
+                    total = y.total,
+                    user = y.user,
+                    userId = y.userId.Value,
+                }).ToListAsync();
+            return list;
+        }
+        public async Task<List<OrderViewModel>> GetAllOrderRefund()
+        {
+            var list = await _context.orders.Where(x => x.status == enums.OrderStatus.Return).Include(e => e.OrderDetails)
+                .Select(y => new OrderViewModel
+                {
+                    id = y.id,
+                    address = y.address,
+                    createDate = y.createDate,
+                    deliveryDate = y.deliveryDate,
+                    email = y.email,
+                    guess = y.guess,
+                    note = y.note,
+                    feeShip = y.feeShip,
+                    OrderDetails = y.OrderDetails,
+                    phone = y.phone,
+                    status = y.status,
+                    street = y.street,
+                    total = y.total,
+                    user = y.user,
+                    userId = y.userId.Value,
+                }).ToListAsync();
+            return list;
+        }
+
         public async Task<ResultOrderViewModel> confirmShippingAndSendMailBillOrder(StatusOrderRequest request)
         {
             var result = await MoveOrderStatus(request);
             return result;
             
+        }
+        public async Task<ResultOrderViewModel> confirmTransport(StatusOrderRequest request)
+        {
+            var result = await MoveOrderStatus(request);
+            return result;
+
         }
         //Hàm chuyển trạng thái và lấy thông tin
         private async Task<ResultOrderViewModel> MoveOrderStatus(StatusOrderRequest request)
@@ -206,7 +259,7 @@ namespace server.Services
             var total = order.total;
             var customer = string.IsNullOrEmpty(order.guess) ? order.user.displayname : order.guess;
             order.status = request.status;
-            order.note = "Admin cancelled";
+            order.note = request.note;
             _context.Entry(order).State = EntityState.Modified;
             var rs = await _context.SaveChangesAsync() > 0;
             return new ResultOrderViewModel { total = total, customer = customer, email= order.email, success = rs };
@@ -214,7 +267,13 @@ namespace server.Services
 
         public async Task<bool> CancelOrder(CancelOrderRequest request)
         {
-            var arg = new StatusOrderRequest { orderId = request.orderId, status = request.status };
+            var arg = new StatusOrderRequest { orderId = request.orderId, status = request.status,note = request.note };
+            var result = await MoveOrderStatus(arg);
+            return result.success;
+        }
+        public async Task<bool> Refund(CancelOrderRequest request)
+        {
+            var arg = new StatusOrderRequest { orderId = request.orderId, status = request.status, note = request.note };
             var result = await MoveOrderStatus(arg);
             return result.success;
         }
@@ -505,7 +564,7 @@ namespace server.Services
             return new DeleteOrderDetailViewModel() { orderDetailId = orderDetailId, isSuccess = isSuccess, total = total};
         }
 
-        public async Task<bool> UserCancelOrder(int orderId)
+        public async Task<bool> UserCancelOrder(int orderId, string note)
         {
             var order = await _context.orders.Where(x => x.id == orderId).Include(u => u.user).FirstOrDefaultAsync();
             if (order == null)
@@ -514,7 +573,7 @@ namespace server.Services
             }
             
             order.status = OrderStatus.Cancel;
-            order.note = "User cancelled";
+            order.note = note;
             _context.Entry(order).State = EntityState.Modified;
             return await _context.SaveChangesAsync() > 0;
             

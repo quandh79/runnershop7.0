@@ -11,5 +11,6 @@ namespace server.Interfaces
     {
         Task<int> Create(OrderCreateRequest request);
         Task<List<OrderViewModel>> GetOrderListByUserId(Guid userId);
+        //Task<ResultOrderViewModel> SendMailBillOrder(OrderCreateRequest request);
     }
 }

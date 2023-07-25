@@ -50,6 +50,20 @@ namespace server.Controllers
             var data = await _manageOrderService.GetAllOrderCancelled();
             return Ok(data);
         }
+
+        [HttpGet("GetAllOrderRefund")]
+        public async Task<IActionResult> GetAllOrderRefund()
+        {
+            var data = await _manageOrderService.GetAllOrderRefund();
+            return Ok(data);
+        }
+
+        [HttpGet("GetAllOrderTransport")]
+        public async Task<IActionResult> GetAllOrderTransport()
+        {
+            var data = await _manageOrderService.GetAllOrderTransport();
+            return Ok(data);
+        }
         [HttpGet("GetOrderDetailByOrderId")]
         public async Task<IActionResult> GetOrderDetailByOrderId(int orderId)
         {
@@ -75,6 +89,28 @@ namespace server.Controllers
             }
             return Ok(result.success);
         }
+
+        [HttpPost("confirmTransport")]
+        public async Task<IActionResult> confirmTransport(StatusOrderRequest request)
+        {
+
+            var result = await _manageOrderService.confirmTransport(request);
+            if (result.success != false)
+            {
+            //    var listData = await _manageOrderService.GetOrderDetailByOrderId(request.orderId);
+            //    var message = new Message(new String[] { result.email }, "Runner SHOP - Hóa Đơn Khách Hàng - " + result.customer, string.Empty);
+            //    var flag = await _emailSender.SendMailOrderBill(message, listData, result.total);
+            //    if (flag == false)
+            //    {
+            //        await _manageOrderService.SetStatusNotConfirm(request.orderId, 0);
+            //    }
+            //    return Ok(flag);
+                 return BadRequest("hong roi !!!");
+            }
+            return Ok(result.success);
+        }
+
+
         [HttpPost("CancelOrder")]
         
         public async Task<IActionResult> CancelOrder(CancelOrderRequest request)
@@ -97,6 +133,31 @@ namespace server.Controllers
             }
             return Ok(result);
         }
+
+        [HttpPost("Refund")]
+
+        public async Task<IActionResult> Refund(CancelOrderRequest request)
+        {
+            var result = await _manageOrderService.CancelOrder(request);
+            if (result)
+            {
+                var order = await _manageOrderService.GetOrderByOrderId(request.orderId);
+                var customer = String.IsNullOrEmpty(order.guess) ? order.user.displayname : order.guess;
+                var note = String.IsNullOrEmpty(request.note) ? $"Đơn hàng có mã {request.orderId} của bạn đã bị hủy bởi Admin!" :
+                    $"Đơn hàng có mã {request.orderId} của bạn đã bị hủy bởi Admin. Do " + request.note;
+                var message = new Message(new string[] { order.email }, "Runner SHOP - Thông Báo Khách Hàng - "
+                    + customer, note);
+                var flag = await _emailSender.SendMailOrderBill(message, null, 0);
+                if (flag == false)
+                {
+                    await _manageOrderService.SetStatusNotConfirm(request.orderId, request.statusRollBack);
+                }
+                return Ok(flag);
+            }
+            return Ok(result);
+        }
+
+
         [HttpPost("ConfirmSuccessOrder")]
         public async Task<IActionResult> ConfirmSuccessOrder(StatusOrderRequest request)
         {
@@ -122,9 +183,9 @@ namespace server.Controllers
             return Ok(data);
         }
         [HttpDelete("UserCancelOrder/{id}")]
-        public async Task<IActionResult> UserCancelOrder(int id)
+        public async Task<IActionResult> UserCancelOrder(int id, string note)
         {
-            var data = await _manageOrderService.UserCancelOrder(id);
+            var data = await _manageOrderService.UserCancelOrder(id, note);
             return Ok(data);
         }
     }

@@ -164,11 +164,11 @@ namespace server.Services
         public async Task<bool> ForgotPassword(ForgotPasswordRequest request)
         {
             
-            var user = await _context.Users.Where(u => u.Email == request.email && !u.UserName.Contains("facebook")).FirstOrDefaultAsync();
+            var user = await _context.Users.Where(u => u.Email == request.email).FirstOrDefaultAsync();
             if (user != null)
             {
                 var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-                var passwordResetLink = string.Format("https://localhost:3000/ResetPassword?token={0}&email={1}", token, request.email);
+                var passwordResetLink = string.Format("http://localhost:3000/ResetPassword?token={0}&email={1}", token, request.email);
                 var emailMessage = new MimeMessage();
                 emailMessage.From.Add(new MailboxAddress(string.Empty, _emailConfiguration.From));
                 //var to = new List<MailboxAddress>();
@@ -179,7 +179,7 @@ namespace server.Services
 
                 emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
                 {
-                    Text = string.Format("<a href='https://localhost:3000/ResetPassword?token={0}&email={1}'>Nhấp vào link này để Reset Password</a>",
+                    Text = string.Format("<a href='http://localhost:3000/ResetPassword?token={0}&email={1}'>Nhấp vào link này để Reset Password</a>",
                         token, request.email)
                 };
                 return await Send(emailMessage);
@@ -192,9 +192,9 @@ namespace server.Services
             {
                 try
                 {
-                    client.Connect(_emailConfiguration.SmtpServer, _emailConfiguration.Port, true);
+                    client.Connect(_emailConfiguration.SmtpServer, _emailConfiguration.Port, MailKit.Security.SecureSocketOptions.StartTls);
                     await client.AuthenticateAsync(_emailConfiguration.Username, _emailConfiguration.Password);
-                    client.AuthenticationMechanisms.Remove("XOAUTH2");
+                    //  client.AuthenticationMechanisms.Remove("XOAUTH2");
                     await client.SendAsync(mailMessage);
                     return true;
                 }
@@ -213,7 +213,7 @@ namespace server.Services
 
         public async Task<bool> ResetPassword(ResetPasswordRequest request)
         {
-            var user = await _context.Users.Where(u => u.Email == request.email && !u.UserName.Contains("facebook")).FirstOrDefaultAsync();
+            var user = await _context.Users.Where(u => u.Email == request.email).FirstOrDefaultAsync();
             if (user != null)
             {
                 var result = await _userManager.ResetPasswordAsync(user, request.token, request.newPassword);

@@ -65,5 +65,23 @@ namespace server.Services
             }).ToListAsync();
             return data;
         }
+        //public async Task<ResultOrderViewModel> SendMailBillOrder(OrderCreateRequest request)
+        //{
+        //    var result = await MoveOrderStatus(request);
+        //    return result;
+
+        //}
+        //private async Task<ResultOrderViewModel> MoveOrderStatus(OrderCreateRequest request)
+        //{
+        //    var order = await _context.orders.Where(x => x.id == request.orderId).Include(u => u.user).FirstOrDefaultAsync();
+        //    if (order == null)
+        //    {
+        //        return new ResultOrderViewModel { total = 0, customer = string.Empty, email = string.Empty, success = false }; ;
+        //    }
+        //    var total = order.total;
+        //    var customer = string.IsNullOrEmpty(order.guess) ? order.user.displayname : order.guess;
+          
+        //    return new ResultOrderViewModel { total = total, customer = customer, email = order.email };
+        //}
     }
 }

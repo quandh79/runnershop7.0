@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using server.Data;
 
+#nullable disable
+
 namespace server.Migrations
 {
     [DbContext(typeof(ShopDbContext))]
@@ -15,16 +17,18 @@ namespace server.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.3")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "6.0.0")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -37,15 +41,16 @@ namespace server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AppRoleClaims");
+                    b.ToTable("AppRoleClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -58,7 +63,7 @@ namespace server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AppUserClaims");
+                    b.ToTable("AppUserClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
@@ -68,17 +73,19 @@ namespace server.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("LoginProvider")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProviderKey")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserId");
 
-                    b.ToTable("AppUserLogins");
+                    b.ToTable("AppUserLogins", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
@@ -91,14 +98,7 @@ namespace server.Migrations
 
                     b.HasKey("RoleId", "UserId");
 
-                    b.ToTable("AppUserRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            RoleId = new Guid("078269d8-1a12-4592-b92e-7ff1a876a5f2"),
-                            UserId = new Guid("4557893f-1f56-4b6f-bb3b-caefd62c8c49")
-                        });
+                    b.ToTable("AppUserRoles", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
@@ -108,9 +108,11 @@ namespace server.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("LoginProvider")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Value")
@@ -118,7 +120,7 @@ namespace server.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("AppUserTokens");
+                    b.ToTable("AppUserTokens", (string)null);
                 });
 
             modelBuilder.Entity("server.Models.AppRole", b =>
@@ -145,26 +147,6 @@ namespace server.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("078269d8-1a12-4592-b92e-7ff1a876a5f2"),
-                            ConcurrencyStamp = "433bc722-378f-48d1-83bf-3f9b04c98eca",
-                            CreationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Administrator role",
-                            Name = "Admin",
-                            NormalizedName = "Admin"
-                        },
-                        new
-                        {
-                            Id = new Guid("6d9186ba-2cd6-4b6c-b729-4e605de1019f"),
-                            ConcurrencyStamp = "b5987fec-c937-4eeb-8070-6729d977ac75",
-                            CreationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "User role",
-                            Name = "User",
-                            NormalizedName = "User"
-                        });
                 });
 
             modelBuilder.Entity("server.Models.AppUser", b =>
@@ -240,36 +222,15 @@ namespace server.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("4557893f-1f56-4b6f-bb3b-caefd62c8c49"),
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "60d4e262-bce4-428b-bc48-4d1d40b822a5",
-                            Email = "16110472@student.hcmute.deu.vn",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "some-admin-email@nonce.fake",
-                            NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBDlD4T0Doz+JuQd07eqLglUiTloXbsaTTfGVQvS0Qvi/hNxKw1K8huMkPP2sBAaww==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "",
-                            TwoFactorEnabled = false,
-                            UserName = "admin",
-                            birthDay = new DateTime(1998, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            displayname = "Admin",
-                            gender = false,
-                            status = 1
-                        });
                 });
 
             modelBuilder.Entity("server.Models.Category", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
 
                     b.Property<string>("generalityName")
                         .IsRequired()
@@ -285,44 +246,15 @@ namespace server.Migrations
                     b.HasKey("id");
 
                     b.ToTable("categories");
-
-                    b.HasData(
-                        new
-                        {
-                            id = 1,
-                            generalityName = "Quần áo",
-                            name = "Áo sơ mi",
-                            status = 0
-                        },
-                        new
-                        {
-                            id = 2,
-                            generalityName = "Quần áo",
-                            name = "Quần tây",
-                            status = 0
-                        },
-                        new
-                        {
-                            id = 3,
-                            generalityName = "Quần áo",
-                            name = "Áo thun",
-                            status = 0
-                        },
-                        new
-                        {
-                            id = 4,
-                            generalityName = "Quần áo",
-                            name = "Quần kaki",
-                            status = 0
-                        });
                 });
 
             modelBuilder.Entity("server.Models.Chat", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
 
                     b.Property<string>("content")
                         .HasColumnType("nvarchar(max)");
@@ -349,8 +281,9 @@ namespace server.Migrations
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
 
                     b.Property<string>("content")
                         .HasColumnType("nvarchar(max)");
@@ -386,8 +319,9 @@ namespace server.Migrations
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
 
                     b.Property<int?>("productId")
                         .HasColumnType("int");
@@ -409,8 +343,9 @@ namespace server.Migrations
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
 
                     b.Property<string>("address")
                         .HasColumnType("nvarchar(max)");
@@ -432,6 +367,9 @@ namespace server.Migrations
 
                     b.Property<string>("note")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("payment")
+                        .HasColumnType("bit");
 
                     b.Property<string>("phone")
                         .HasColumnType("nvarchar(max)");
@@ -459,8 +397,9 @@ namespace server.Migrations
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
 
                     b.Property<int>("orderId")
                         .HasColumnType("int");
@@ -493,8 +432,9 @@ namespace server.Migrations
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
 
                     b.Property<int>("amount")
                         .HasColumnType("int");
@@ -542,101 +482,15 @@ namespace server.Migrations
                     b.HasIndex("providerId");
 
                     b.ToTable("products");
-
-                    b.HasData(
-                        new
-                        {
-                            id = 1,
-                            amount = 0,
-                            categoryId = 1,
-                            color = 6,
-                            description = "mô tả sản phẩm 1",
-                            importPrice = 100000,
-                            name = "Áo sơ mi",
-                            price = 150000,
-                            providerId = 1,
-                            rating = 5,
-                            sale = 0,
-                            size = 2,
-                            status = 0,
-                            viewCount = 0
-                        },
-                        new
-                        {
-                            id = 2,
-                            amount = 0,
-                            categoryId = 1,
-                            color = 2,
-                            description = "mô tả sản phẩm 2",
-                            importPrice = 80000,
-                            name = "Áo sơ mi tay ngắn",
-                            price = 120000,
-                            providerId = 2,
-                            rating = 5,
-                            sale = 0,
-                            size = 0,
-                            status = 0,
-                            viewCount = 0
-                        },
-                        new
-                        {
-                            id = 3,
-                            amount = 0,
-                            categoryId = 2,
-                            color = 6,
-                            description = "mô tả sản phẩm 3",
-                            importPrice = 200000,
-                            name = "Quần tây",
-                            price = 250000,
-                            providerId = 3,
-                            rating = 5,
-                            sale = 0,
-                            size = 2,
-                            status = 0,
-                            viewCount = 0
-                        },
-                        new
-                        {
-                            id = 4,
-                            amount = 0,
-                            categoryId = 3,
-                            color = 1,
-                            description = "mô tả sản phẩm 4",
-                            importPrice = 50000,
-                            name = "Áo thun",
-                            price = 75000,
-                            providerId = 4,
-                            rating = 5,
-                            sale = 0,
-                            size = 2,
-                            status = 0,
-                            viewCount = 0
-                        },
-                        new
-                        {
-                            id = 5,
-                            amount = 0,
-                            categoryId = 4,
-                            color = 7,
-                            description = "mô tả sản phẩm 5",
-                            importPrice = 180000,
-                            name = "Quần kaki",
-                            price = 220000,
-                            providerId = 5,
-                            rating = 5,
-                            sale = 0,
-                            size = 2,
-                            status = 0,
-                            viewCount = 0
-                        });
                 });
 
             modelBuilder.Entity("server.Models.Provider", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
 
                     b.Property<string>("name")
                         .IsRequired()
@@ -648,46 +502,15 @@ namespace server.Migrations
                     b.HasKey("id");
 
                     b.ToTable("providers");
-
-                    b.HasData(
-                        new
-                        {
-                            id = 1,
-                            name = "Việt Tiến",
-                            status = 0
-                        },
-                        new
-                        {
-                            id = 2,
-                            name = "Cty May Sông Hồng",
-                            status = 0
-                        },
-                        new
-                        {
-                            id = 3,
-                            name = "Cty May Nhà Bè",
-                            status = 0
-                        },
-                        new
-                        {
-                            id = 4,
-                            name = "Cty Giditex",
-                            status = 0
-                        },
-                        new
-                        {
-                            id = 5,
-                            name = "Cty Vinatex",
-                            status = 0
-                        });
                 });
 
             modelBuilder.Entity("server.Models.Reply", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
 
                     b.Property<string>("content")
                         .HasColumnType("nvarchar(max)");
@@ -726,6 +549,10 @@ namespace server.Migrations
                         .HasForeignKey("senderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("receiver");
+
+                    b.Navigation("sender");
                 });
 
             modelBuilder.Entity("server.Models.Evaluation", b =>
@@ -741,6 +568,10 @@ namespace server.Migrations
                         .HasForeignKey("userId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("product");
+
+                    b.Navigation("user");
                 });
 
             modelBuilder.Entity("server.Models.Image", b =>
@@ -748,6 +579,8 @@ namespace server.Migrations
                     b.HasOne("server.Models.Product", "product")
                         .WithMany("Images")
                         .HasForeignKey("productId");
+
+                    b.Navigation("product");
                 });
 
             modelBuilder.Entity("server.Models.Order", b =>
@@ -755,6 +588,8 @@ namespace server.Migrations
                     b.HasOne("server.Models.AppUser", "user")
                         .WithMany("Orders")
                         .HasForeignKey("userId");
+
+                    b.Navigation("user");
                 });
 
             modelBuilder.Entity("server.Models.OrderDetail", b =>
@@ -770,6 +605,10 @@ namespace server.Migrations
                         .HasForeignKey("productId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("order");
+
+                    b.Navigation("product");
                 });
 
             modelBuilder.Entity("server.Models.Product", b =>
@@ -781,6 +620,10 @@ namespace server.Migrations
                     b.HasOne("server.Models.Provider", "provider")
                         .WithMany()
                         .HasForeignKey("providerId");
+
+                    b.Navigation("category");
+
+                    b.Navigation("provider");
                 });
 
             modelBuilder.Entity("server.Models.Reply", b =>
@@ -796,6 +639,37 @@ namespace server.Migrations
                         .HasForeignKey("userId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("evaluation");
+
+                    b.Navigation("user");
+                });
+
+            modelBuilder.Entity("server.Models.AppUser", b =>
+                {
+                    b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("server.Models.Category", b =>
+                {
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("server.Models.Evaluation", b =>
+                {
+                    b.Navigation("Replies");
+                });
+
+            modelBuilder.Entity("server.Models.Order", b =>
+                {
+                    b.Navigation("OrderDetails");
+                });
+
+            modelBuilder.Entity("server.Models.Product", b =>
+                {
+                    b.Navigation("Evaluations");
+
+                    b.Navigation("Images");
                 });
 #pragma warning restore 612, 618
         }

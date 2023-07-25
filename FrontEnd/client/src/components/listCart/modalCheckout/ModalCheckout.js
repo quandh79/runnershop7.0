@@ -167,7 +167,8 @@ class ModalCheckout extends Component {
                             </Form.Item>
                             {this.state.onlinePayment === true?
                             (
-                                <><label>Tổng tiền (VND)</label><Input type="text" value={this.props.total + this.state.feeShip} disabled></Input><PayPalButton
+                                <><label>Tổng tiền (VND)</label><Input type="text" value={this.props.total + this.state.feeShip} disabled></Input>
+                                <PayPalButton
                                                 options={{
                                                     "vault": true,
                                                     "client-id": "AR86XShHEggIM0YzMF6FdymWDWPkpjh7mx-PDVlwis1Ve0HRniLtcaaIjPLMDDw-MZPi89PNeLAmuKrd"

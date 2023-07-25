@@ -34,7 +34,7 @@ namespace server.Data
             builder.Entity<IdentityRoleClaim<Guid>>().ToTable("AppRoleClaims");
             builder.Entity<IdentityUserToken<Guid>>().ToTable("AppUserTokens").HasKey(x => x.UserId);
 
-            builder.Seed();
+           // builder.Seed();
             //base.OnModelCreating(builder);
             
         }

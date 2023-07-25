@@ -20,14 +20,18 @@ namespace server.Interfaces
         Task<DeleteOrderDetailViewModel> DeleteOrderDetail(int id);
         //
         Task<ResultOrderViewModel> confirmShippingAndSendMailBillOrder(StatusOrderRequest request);
+        Task<ResultOrderViewModel> confirmTransport(StatusOrderRequest request);
         Task<OrderViewModel> GetOrderByOrderId(int orderId);
         Task<bool> CancelOrder(CancelOrderRequest request);
+        Task<bool> Refund(CancelOrderRequest request);
         Task<bool> confirmSuccessOrder(StatusOrderRequest request);
         //
         Task<List<OrderViewModel>> GetAllOrderSuccess();
+        Task<List<OrderViewModel>> GetAllOrderTransport();
+        Task<List<OrderViewModel>> GetAllOrderRefund();
         Task<List<OrderViewModel>> GetAllOrderDelivering();
         Task<List<OrderViewModel>> GetAllOrderCancelled();
         Task<bool> SetStatusNotConfirm(int orderId, OrderStatus status);
-        Task<bool> UserCancelOrder(int orderId);
+        Task<bool> UserCancelOrder(int orderId, string note);
     }
 }

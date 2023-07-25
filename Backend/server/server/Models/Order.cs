@@ -27,6 +27,7 @@ namespace server.Models
         public string phone { get; set; }
         public string email { get; set; }
         public DateTime createDate { get; set; }
+        public bool payment { get; set; }
         //foreign key
         public Guid? userId { get; set; }
         public AppUser user { get; set; }

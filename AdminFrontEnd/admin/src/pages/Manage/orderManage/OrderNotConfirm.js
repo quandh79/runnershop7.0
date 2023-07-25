@@ -112,7 +112,7 @@ export default class OrderNotConfirm extends Component {
             this.setState({
                 isLoading: true,
             })
-            let list = await axiosInstance(`ManageOrder/ConfirmShippingAndSendMailBillOrder`,'POST', {orderId: record.id, status: 2})
+            let list = await axiosInstance(`ManageOrder/confirmTransport`,'POST', {orderId: record.id, status: 6})
             .then(res => res.data);
             if(list === true){
                 message.success('Đã gửi Hóa đơn cho khách hàng qua Email và chuyển sang trạng thái Giao hàng!', 4)
