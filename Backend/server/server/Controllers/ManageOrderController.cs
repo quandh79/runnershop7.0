@@ -134,6 +134,28 @@ namespace server.Controllers
             return Ok(result);
         }
 
+        [HttpPost("UserCancelOrder")]
+        public async Task<IActionResult> UserCancelOrder(CancelOrderRequest request)
+        {
+            var result = await _manageOrderService.CancelOrder(request);
+            if (result)
+            {
+                var order = await _manageOrderService.GetOrderByOrderId(request.orderId);
+                //var customer = String.IsNullOrEmpty(order.guess) ? order.user.displayname : order.guess;
+                //var note = String.IsNullOrEmpty(request.note) ? $"Đơn hàng có mã {request.orderId} của bạn đã bị hủy bởi Admin!" :
+                //    $"Đơn hàng có mã {request.orderId} của bạn đã bị hủy bởi Admin. Do " + request.note;
+                //var message = new Message(new string[] { order.email }, "Runner SHOP - Thông Báo Khách Hàng - "
+                //    + customer, note);
+                //var flag = await _emailSender.SendMailOrderBill(message, null, 0);
+                //if (flag == false)
+                //{
+                //    await _manageOrderService.SetStatusNotConfirm(request.orderId, request.statusRollBack);
+                //}
+                //return Ok(flag);
+            }
+            return Ok(result);
+        }
+
         [HttpPost("Refund")]
 
         public async Task<IActionResult> Refund(CancelOrderRequest request)

@@ -23,6 +23,7 @@ namespace server.Interfaces
         Task<ResultOrderViewModel> confirmTransport(StatusOrderRequest request);
         Task<OrderViewModel> GetOrderByOrderId(int orderId);
         Task<bool> CancelOrder(CancelOrderRequest request);
+        Task<bool> UserCancelOrder(CancelOrderRequest request);
         Task<bool> Refund(CancelOrderRequest request);
         Task<bool> confirmSuccessOrder(StatusOrderRequest request);
         //

@@ -271,6 +271,12 @@ namespace server.Services
             var result = await MoveOrderStatus(arg);
             return result.success;
         }
+        public async Task<bool> UserCancelOrder(CancelOrderRequest request)
+        {
+            var arg = new StatusOrderRequest { orderId = request.orderId, status = request.status, note = request.note };
+            var result = await MoveOrderStatus(arg);
+            return result.success;
+        }
         public async Task<bool> Refund(CancelOrderRequest request)
         {
             var arg = new StatusOrderRequest { orderId = request.orderId, status = request.status, note = request.note };

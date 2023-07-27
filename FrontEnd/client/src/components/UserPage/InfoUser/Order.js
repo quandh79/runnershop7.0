@@ -102,7 +102,7 @@ export default class Order extends Component {
             isLoading: true,
             visibleCancel: false,
         })
-        let list = await axiosInstance(`ManageOrder/CancelOrder`,'POST', 
+        let list = await axiosInstance(`ManageOrder/UserCancelOrder`,'POST', 
         {orderId: orderId, status: 1, statusRollBack: 0, note: note})
         .then(res => res.data);
         if(list === true){
@@ -167,8 +167,8 @@ export default class Order extends Component {
                     
                     
                     <Tag style={{width: 100}} icon={status === 2 ? <SyncOutlined spin/>: status === 3 ? <CheckCircleOutlined/> : <MinusCircleOutlined></MinusCircleOutlined> } 
-                    color={status === 6 ? '#2db7f5':status === 2 ? '#2db7f5': status === 3 ? '#87d068' : '#f50'}>
-                        {status === 6 ? 'Confirmed':status === 2 ? 'Shipping': status === 3 ? 'received' : 'Not Confirm'}
+                    color={status === 5 ? '#FF6633':status === 6 ? '#2db7f5':status === 2 ? '#2db7f5': status === 3 ? '#87d068' : '#f50'}>
+                        {status === 5 ? 'Return':status === 6 ? 'Confirmed':status === 2 ? 'Shipping': status === 3 ? 'received' : 'Not Confirm'}
                     </Tag>
                     
                     
